@@ -1,0 +1,41 @@
+type stripeSubscription {
+  status: Boolean
+  message: String
+  stripeData: JSON
+}
+input createStripeSubscriptionInput {
+  customerEmail: String!
+  priceId: String!
+  paymentMethodId: String!
+}
+type SubscriptionPayload {
+  _id: ID
+  customerId: ID
+  subscriptionId: String
+  paymentId: String
+  priceId: String
+  createdAt: DateTime
+  subscriptionStatus: String
+  updatedAt: DateTime
+  cancel_at: DateTime
+  # stripeData: JSON
+}
+enum billingCyclePayload {
+  unchanged
+  now
+}
+extend type Mutation {
+  createStripeSubscription(
+    input: createStripeSubscriptionInput!
+  ): stripeSubscription
+  cancelStripeSubscription(userId: ID!): stripeSubscription
+  resumeStripeSubscriptions(
+    id: ID
+    billingCycle: billingCyclePayload
+  ): stripeSubscription
+}
+extend type Query {
+  getAllSubscriptions: [SubscriptionPayload]
+  getSubscriptionById(userID: ID!): SubscriptionPayload
+  getAllStripeSubscribedCustomer(limit: Int): stripeSubscription
+}

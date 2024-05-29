@@ -1,0 +1,94 @@
+type StripeCustomer {
+  id: String
+  email: String
+  name: String
+  description: String
+  address: [stripeCustomerAddress]
+  balance: Int
+  created: Int
+  currency: String
+  default_source: String
+  invoice_prefix: String
+  phone: String
+}
+type stripeCustomerAddress {
+  line1: String
+  line2: String
+  city: String
+  state: String
+  postal_code: String
+  country: String
+}
+input stripeCustomerAddressInput {
+  line1: String
+  line2: String
+  city: String
+  state: String
+  postal_code: String
+  country: String
+}
+input StripeInput {
+  id: ID
+  email: String!
+  name: String!
+  description: String
+  address: [stripeCustomerAddressInput]
+  balance: Int
+  created: Int
+  currency: String
+  default_source: String
+  invoice_prefix: String
+  phone: String
+}
+input updateStripeCustomerInput {
+  id: ID!
+  email: String!
+  name: String!
+  description: String
+  balance: Int
+  currency: String
+  default_source: String
+  invoice_prefix: String
+  phone: String
+}
+type deleteStripeCustomer {
+  id: ID
+  object: String
+  deleted: Boolean
+}
+type Mutation {
+  createStripeCustomer(input: StripeInput): StripeCustomer!
+  updateStripeCustomer(input: updateStripeCustomerInput): StripeCustomer
+  deleteStripeCustomer(id: ID): deleteStripeCustomer
+  deleteStripeAccount(id: ID): deleteStripeCustomer
+}
+type Query {
+  retrieveStripeCustomer(id: String!): StripeCustomer!
+  getAllStripeCustomer(limit: Int): [StripeCustomer]
+}
+
+# email: String!
+# name: String!
+# description: String
+# address: stripeCustomerAddressInput
+# balance: Int
+# created: Int
+# currency: String
+# default_source: String
+# invoice_prefix: String
+# phone: String
+
+# updateStripeCustomer(
+#   id: String!
+#   email: String
+#   name: String
+#   description: String
+#   address: stripeCustomerAddressInput
+#   balance: Int
+#   created: Int
+#   currency: String
+#   default_source: String
+#   invoice_prefix: String
+#   phone: String
+# ): StripeCustomer!
+# deleteStripeCustomer(id: String!): StripeCustomer
